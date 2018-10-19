@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="youahentai">
+<meta name="description" content="查找到两个链表的第一个共同结点一道不入流大学的数据结构练习题：  单链表A和单链表B有共同结点。试设计找出两个链表的第一个共同结点的算法，且该算法的时间复杂度为O(n+m)，其中n是链表A的长度，m是链表B的长度。">
 <meta name="keywords" content="d">
-<meta property="og:type" content="website">
-<meta property="og:title" content="我的博客啊嘤嘤嘤">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="查找共同结点">
+<meta property="og:url" content="http://yoursite.com/2018/10/19/查找共同结点/index.html">
 <meta property="og:site_name" content="我的博客啊嘤嘤嘤">
-<meta property="og:description" content="youahentai">
+<meta property="og:description" content="查找到两个链表的第一个共同结点一道不入流大学的数据结构练习题：  单链表A和单链表B有共同结点。试设计找出两个链表的第一个共同结点的算法，且该算法的时间复杂度为O(n+m)，其中n是链表A的长度，m是链表B的长度。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-19T11:36:18.755Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我的博客啊嘤嘤嘤">
-<meta name="twitter:description" content="youahentai">
+<meta name="twitter:title" content="查找共同结点">
+<meta name="twitter:description" content="查找到两个链表的第一个共同结点一道不入流大学的数据结构练习题：  单链表A和单链表B有共同结点。试设计找出两个链表的第一个共同结点的算法，且该算法的时间复杂度为O(n+m)，其中n是链表A的长度，m是链表B的长度。">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/19/查找共同结点/"/>
 
 
 
 
 
-  <title>我的博客啊嘤嘤嘤</title>
+  <title>查找共同结点 | 我的博客啊嘤嘤嘤</title>
   
 
 
@@ -144,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -218,9 +218,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -250,9 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/19/查找共同结点/" itemprop="url">查找共同结点</a></h1>
+          <h1 class="post-title" itemprop="name headline">查找共同结点</h1>
         
 
         <div class="post-meta">
@@ -302,19 +300,68 @@
       
 
       
-        
-          <h1 id="查找到两个链表的第一个共同结点"><a href="#查找到两个链表的第一个共同结点" class="headerlink" title="查找到两个链表的第一个共同结点"></a>查找到两个链表的第一个共同结点</h1><p>一道不入流大学的数据结构练习题：</p>
+        <h1 id="查找到两个链表的第一个共同结点"><a href="#查找到两个链表的第一个共同结点" class="headerlink" title="查找到两个链表的第一个共同结点"></a>查找到两个链表的第一个共同结点</h1><p>一道不入流大学的数据结构练习题：</p>
 <blockquote>
 <p>单链表A和单链表B有共同结点。试设计找出两个链表的第一个共同结点的算法，且该算法的时间复杂度为O(n+m)，其中n是链表A的长度，m是链表B的长度。</p>
 </blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/19/查找共同结点/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+<a id="more"></a>
+<p>作为一个!acmer，看到这个问题的时候，第一反应就是暴力遍历，对每一个链表A的结点都对链表B进行遍历，直到找到共同结点。</p>
+<p>但是很显然，这种暴力做法的算法复杂度是O(n*m)而不是O(n+m)。</p>
+<p>容易发现，因为是单链表，所以链表A与链表B从第一个相同结点开始，之后的所有结点都会是相同的，也就是链表A与链表B的后x结点是相同的（从第一个相同结点到最后一个结点）。</p>
+<p>所以，两个链表的长度差d实际上就是两个链表第一个共同结点前的的长度差。</p>
+<p>因此，只要使较长的链表先下历d个结点，再对两个链表同时向下遍历，则必定会同时到达第一个共同结点，此时的算法复杂度为O(n+m)。</p>
+<p>C的代码实现如下（链表带头结点）：</p>
+<pre><code>//获取链表长度
+int getLength(Node *head)    
+{
+    int l=0;
+
+    while(head-&gt;next)
+    {
+        head=head-&gt;next;
+        l++;
+    }
+    return l;
+}
+//查找第一个共同结点
+Node *Find(Node *Ahead, Node *Bhead)
+{
+    int n=getLength(Ahead);
+    int m=getLength(Bhead);
+    Node *p1,*p2;
+    int d;
+
+    //获取长度差d
+    //获取较长链表(p1)，较短链表(p2)
+    if(n&gt;m)
+    {
+        p1=Ahead-&gt;next;
+        p2=Bhead-&gt;next;
+        d=n-m;
+    }
+    else
+    {
+        p1=Bhead-&gt;next;
+        p2=Ahead-&gt;next;
+        d=m-n;
+    }
+    //较长链表先下历d个结点
+    for(int i=0;i&lt;d;i++)
+    {
+        p1=p1-&gt;next;
+    }
+    //两个结点同时向下遍历，找到相同结点时退出并返回该结点
+    while(p1 &amp;&amp; p2)
+    {
+        if(p1==p2)
+            return p1;
+        p1=p1-&gt;next;
+        p2=p2-&gt;next;
+    }
+    //找不到相同结点则返回NULL
+    return NULL;
+}
+</code></pre>
       
     </div>
     
@@ -331,131 +378,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/14/first-massage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="赵文朗">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客啊嘤嘤嘤">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/14/first-massage/" itemprop="url">first massage</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-14T19:35:20+08:00">
-                2018-10-14
-              </time>
+              <a href="/2018/10/14/first-massage/" rel="next" title="first massage">
+                <i class="fa fa-chevron-left"></i> first massage
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -465,10 +409,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -476,6 +421,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -496,8 +445,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -548,6 +506,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#查找到两个链表的第一个共同结点"><span class="nav-number">1.</span> <span class="nav-text">查找到两个链表的第一个共同结点</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -688,6 +662,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
